@@ -1,3 +1,4 @@
+import argparse
 import os
 import time
 from fetchers.events import EventFetcher
@@ -15,6 +16,8 @@ OPEN_DATA_PATHS = {
 }
 
 def main():
+    parser = set_flags()
+    args = parser.parse_args()
     start = time.time()
     conn = init_db()
 
@@ -30,11 +33,22 @@ def main():
 
     print("Running event fetcher...")
     event_fetcher = EventFetcher(OPEN_DATA_PATHS['events'], conn)
-    event_fetcher.download(RAW_DATA_DIR)
+
+    if args.download:
+        event_fetcher.download(RAW_DATA_DIR)
+
+    event_fetcher.fetch(RAW_DATA_DIR)
 
     end = time.time()
 
     print(f"data-fetcher ended in {end - start} seconds")
+
+def set_flags():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-d", "--download", help="Download the events data", action="store_true")
+
+    return parser
 
 if __name__ == '__main__':
     main()

@@ -1,8 +1,10 @@
 import os
+import pathlib
 import json
 from fetchers.helpers import exists_in_db
 import duckdb
 import requests
+import pandas as pd
 
 class EventFetcher:
     def __init__(self, url: str, db: duckdb.DuckDBPyConnection) -> None:
@@ -73,19 +75,21 @@ class EventFetcher:
             all_events = requests.get(q).json()
 
             with open(os.path.join(out_dir, match_id), 'w') as f:
-                for event in all_events:
-                    obj = json.dumps(event, indent=4)
-                    f.write(obj)
+                events = [json.dumps(x, indent=4) for x in all_events]
+                s = ",".join(events)
+                s = f'[{s}]'
+                f.write(s)
 
 
-    def fetch(self):
-        q = "SELECT id FROM matches"
 
-        rows = self.db.sql(q).fetchall()
+    def fetch(self, dir: str):
+        rows = [x for x in pathlib.Path(dir).iterdir() if x.is_file()]
 
         for row in rows:
-            q = self.url.replace('{match_id}', str(row[0]))
-            all_events = requests.get(q).json()
+            fp = os.path.join(dir, row)
+            print(fp)
+            json_f = open(fp)
+            all_events = json.load(json_f)
 
             for event in all_events:
                 event_name = event['type']['name']

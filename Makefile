@@ -1,7 +1,8 @@
 clean:
-	rm -rf raw_data
-	mkdir raw_data
-	rm statsbomb.db
+	 rm statsbomb.db
 
 tar:
 	tar -zcvf raw_data.tar.gz raw_data
+
+decompress:
+	tar -xf raw_data.tar.gz
