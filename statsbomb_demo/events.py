@@ -1,7 +1,7 @@
 import os
 import pathlib
 import json
-from fetchers.helpers import exists_in_db
+from helpers import exists_in_db
 import duckdb
 import requests
 from threading import Thread

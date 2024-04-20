@@ -1,6 +1,6 @@
 import requests
 import duckdb
-from fetchers.helpers import exists_in_db
+from helpers import exists_in_db
 
 class MatchesFetcher():
     def __init__(self, url: str, db: duckdb.DuckDBPyConnection) -> None:
