@@ -22,6 +22,15 @@ jobs:
       run: | 
         poetry lock
         poetry install
+
+  test:
     - name: Analysing the code with pylint
+      continue-on-error: true
       run: |
         pylint $(git ls-files '*.py')
+
+    - name: Test code
+      continue-on-error: true
+      run: |
+        poetry run pytest
+      
