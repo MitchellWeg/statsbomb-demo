@@ -23,7 +23,6 @@ jobs:
         poetry lock
         poetry install
 
-  test:
     - name: Analysing the code with pylint
       continue-on-error: true
       run: |
@@ -33,4 +32,3 @@ jobs:
       continue-on-error: true
       run: |
         poetry run pytest
-      
