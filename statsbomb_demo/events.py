@@ -1,7 +1,7 @@
 import os
 import pathlib
 import json
-from helpers import exists_in_db
+from helpers import exists_in_db, clean_str
 import duckdb
 import requests
 from threading import Thread
@@ -174,7 +174,7 @@ class EventFetcher:
 
     def _check_for_player(self, player: dict, conn: duckdb.DuckDBPyConnection):
         id = player['id']
-        name = player['name'].replace("'", "''")
+        name = clean_str(player['name'])
         
         if exists_in_db('players', id, conn) is False:
             self.db.sql(

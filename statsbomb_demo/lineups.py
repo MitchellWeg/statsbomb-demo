@@ -1,4 +1,4 @@
-from io import StringIO
+from helpers import clean_str
 import requests
 import os
 import pathlib
@@ -65,7 +65,7 @@ class LineupFetcher:
                         """
                     )
 
-                team_name = team_name.replace("'", "''")
+                team_name = clean_str(team_name)
 
                 self.db.sql(
                     f"""
