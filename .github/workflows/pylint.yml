@@ -20,6 +20,7 @@ jobs:
         pip install pylint poetry
     - name: Install dependencies
       run: | 
+        poetry lock
         poetry install
     - name: Analysing the code with pylint
       run: |
