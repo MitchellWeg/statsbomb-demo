@@ -1,7 +1,7 @@
 import os
 import pathlib
 import json
-from helpers import exists_in_db, clean_str
+from helpers import exists_in_db, clean_str, read_sql_file
 import duckdb
 import requests
 from threading import Thread
@@ -13,56 +13,9 @@ class EventFetcher:
         self.__init_events_db()
 
     def __init_events_db(self):
-        self.db.sql(
-            """CREATE TABLE events(
-                id UUID,
-                index INT,
-                period INT,
-                timestamp TIME,
-                minute INT,
-                second INT,
-                type INT,
-                possession INT,
-                possession_team INT,
-                play_pattern INT,
-                team INT,
-                player INT NULL,
-                loc_x INT NULL,
-                loc_y INT NULL,
-                duration DECIMAL,
-                under_pressure BOOL NULL,
-                off_camera BOOL NULL,
-                out BOOL NULL,
-            )"""
-        )
+        qs = read_sql_file('events')
 
-        self.db.sql(
-            """CREATE TABLE event_type(
-                id INT,
-                name STRING
-            )"""
-        )
-
-        self.db.sql(
-            """CREATE TABLE play_pattern(
-                id INT,
-                name STRING
-            )"""
-        )
-
-        self.db.sql(
-            """CREATE TABLE players(
-                id INT,
-                name STRING
-            )"""
-        )
-
-        self.db.sql(
-            """CREATE TABLE related_events(
-                id INT,
-                event UUID
-            )"""
-        )
+        self.db.sql(qs)
 
     def download(self, out_dir: str):
         q = "SELECT id FROM matches"

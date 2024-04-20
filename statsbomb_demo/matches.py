@@ -1,6 +1,6 @@
 import requests
 import duckdb
-from helpers import exists_in_db, clean_str
+from helpers import exists_in_db, clean_str, read_sql_file
 
 class MatchesFetcher():
     def __init__(self, url: str, db: duckdb.DuckDBPyConnection) -> None:
@@ -9,33 +9,11 @@ class MatchesFetcher():
         self.__init_matches_db()
 
     def __init_matches_db(self):
-        self.db.sql("CREATE TABLE stadiums(id INT, name STRING, country_id INT)")
-        self.db.sql("CREATE TABLE countries(id INT, name STRING)")
-        self.db.sql("CREATE TABLE referees(id INT, name STRING, country_id INT)")
-        self.db.sql("CREATE TABLE teams(id INT, name STRING, gender STRING, country_id INT, managers_id INT)")
-        self.db.sql("CREATE TABLE manager(id INT, name STRING, nickname STRING, dob STRING, country_id INT)")
         self.db.sql("CREATE SEQUENCE seq_managers_id START 1")
-        self.db.sql("CREATE TABLE managers(id INT, team_id INT, manager_id INT)")
-        self.db.sql("""CREATE TABLE matches(
-                    id INT,
-                    match_date DATE,
-                    kick_off TIME NULL,
-                    season_id INT,
-                    season_name STRING,
-                    home_team_id INT,
-                    away_team_id INT,
-                    home_team_score INT,
-                    away_team_score INT,
-                    match_status STRING,
-                    match_status_360 STRING,
-                    last_updated DATE,
-                    last_updated_360 STRING,
-                    data_version STRING,
-                    shot_fidelity_version INT,
-                    xy_fidelity_version INT,
-                    match_week INT,
-                    competition_stage STRING,
-                )""")
+
+        qs = read_sql_file('matches')
+
+        self.db.sql(qs)
 
     
     def fetch(self, competition_id: int, season_id: int):

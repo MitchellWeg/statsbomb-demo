@@ -1,4 +1,4 @@
-from helpers import clean_str
+from helpers import clean_str, read_sql_file
 import requests
 import os
 import pathlib
@@ -12,27 +12,12 @@ class LineupFetcher:
 
     def __init_db(self):
         self.db.sql(
-            """
-            CREATE TABLE lineups(
-                team_id INT,
-                team_name STRING,
-                lineup_players_id INT
-            )
-            """
-        )
-
-        self.db.sql(
             "CREATE SEQUENCE lineup_id_seq START 1"
         )
-        self.db.sql(
-            """
-            CREATE TABLE lineup_player(
-                id INT,
-                player_id INT,
-                jersey_number INT
-            )
-            """
-        )
+
+        qs = read_sql_file("lineups")
+
+        self.db.sql(qs)
 
     def fetch(self, dir: str):
         rows = [x for x in pathlib.Path(dir).iterdir() if x.is_file()]
