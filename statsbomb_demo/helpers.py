@@ -8,3 +8,7 @@ def exists_in_db(table_name: str, id: int, conn: duckdb.DuckDBPyConnection) -> b
     f = r.fetchone()
     r.close()
     return (f is not None)
+
+
+def clean_str(s: str) -> str:
+    return s.replace("'", "''")

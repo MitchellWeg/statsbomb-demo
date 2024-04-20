@@ -1,6 +1,6 @@
 import requests
 import duckdb
-from fetchers.helpers import exists_in_db
+from helpers import exists_in_db, clean_str
 
 class MatchesFetcher():
     def __init__(self, url: str, db: duckdb.DuckDBPyConnection) -> None:
@@ -149,9 +149,8 @@ class MatchesFetcher():
             if len(team_managers) > 0:
                 q = f'SELECT id FROM managers WHERE team_id = {team_id} AND manager_id = {team_managers[0]["id"]}'
                 managers_id_teams = self.db.sql(q).fetchone()
-            team_name = team_name.replace("'", "''")
+            team_name = clean_str(team_name)
             insert = "insert into teams values(?, ?, ?, ?, ?)"
-
 
             self.db.execute(insert, (
                         team_id, 
@@ -161,7 +160,6 @@ class MatchesFetcher():
                         managers_id_teams[0] if managers_id_teams is not None else "-1"
                 )
             )
-
 
         self.handle_countries(team['country'])
 
@@ -177,7 +175,7 @@ class MatchesFetcher():
         r = self.db.sql(f"select * from stadiums where id = {stadium['id']}")
 
         if not r.fetchone():
-            name = stadium['name'].replace("'", "''")
+            name = clean_str(stadium['name'])
             q = f"insert into stadiums values({stadium['id']}, '{name}', {stadium['country']['id']})"
             self.db.sql(q)
 
@@ -185,7 +183,7 @@ class MatchesFetcher():
 
     def handle_countries(self, country: dict):
         r = self.db.sql(f"select * from countries where id = {country['id']}")
-        name = country['name'].replace("'", "''")
+        name = clean_str(country['name'])
 
         if not r.fetchone():
             self.db.sql(f"insert into countries values({country['id']}, '{name}')")
