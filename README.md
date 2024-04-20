@@ -4,6 +4,11 @@ Small demo of a Statsbomb pipeline
 
 ## Usage
 
+To run the full pipeline:
+```sh
+make run
+```
+
 A small script is included to start the data processing:
 
 ```sh
