@@ -37,8 +37,11 @@ def main():
     if args.download:
         event_fetcher.download(RAW_DATA_DIR)
 
-    event_fetcher.fetch(RAW_DATA_DIR)
-
+    print("Running event parser...")
+    if args.threads == None:
+        event_fetcher.fetch(RAW_DATA_DIR, 1)
+    else:
+        event_fetcher.fetch(RAW_DATA_DIR, args.threads)
     end = time.time()
 
     print(f"data-fetcher ended in {end - start} seconds")
@@ -47,6 +50,7 @@ def set_flags():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-d", "--download", help="Download the events data", action="store_true")
+    parser.add_argument("-t", "--threads", help="Specify thread amount for chunking", nargs="?", type=int, const=1)
 
     return parser
 
