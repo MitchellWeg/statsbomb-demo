@@ -10,12 +10,7 @@ class EventFetcher:
     def __init__(self, url: str, db: duckdb.DuckDBPyConnection) -> None:
         self.url = url
         self.db = db
-        self.__init_events_db()
 
-    def __init_events_db(self):
-        qs = read_sql_file('events')
-
-        self.db.sql(qs)
 
     def download(self, out_dir: str):
         q = "SELECT id FROM matches"

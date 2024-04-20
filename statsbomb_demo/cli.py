@@ -7,7 +7,7 @@ from competitions import CompetitionsFetcher
 from lineups import LineupFetcher
 from db import init_db
 
-RAW_DATA_DIR=os.path.join(f"{os.getcwd()}/..","raw_data")
+RAW_DATA_DIR = os.path.join(f"{os.getcwd()}/..","raw_data")
 
 OPEN_DATA_PATHS = {
     "competitions": "https://raw.githubusercontent.com/statsbomb/open-data/master/data/competitions.json",

@@ -11,10 +11,6 @@ class MatchesFetcher():
     def __init_matches_db(self):
         self.db.sql("CREATE SEQUENCE seq_managers_id START 1")
 
-        qs = read_sql_file('matches')
-
-        self.db.sql(qs)
-
     
     def fetch(self, competition_id: int, season_id: int):
         url = self.url.replace('{competition_id}', str(competition_id)).replace('{season_id}', str(season_id))

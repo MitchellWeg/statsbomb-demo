@@ -15,9 +15,6 @@ class LineupFetcher:
             "CREATE SEQUENCE lineup_id_seq START 1"
         )
 
-        qs = read_sql_file("lineups")
-
-        self.db.sql(qs)
 
     def fetch(self, dir: str):
         rows = [x for x in pathlib.Path(dir).iterdir() if x.is_file()]
