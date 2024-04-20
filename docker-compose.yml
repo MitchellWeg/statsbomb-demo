@@ -11,7 +11,8 @@ services:
     ports:
       - 5432:5432
     volumes:
-       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+       - ./sql/init.sql:/docker-entrypoint-initdb.d/1-init.sql
+       - ./sql/import.sql:/docker-entrypoint-initdb.d/2-import.sql
        - ./new_data:/home/data
     environment:
       - POSTGRES_PASSWORD=root

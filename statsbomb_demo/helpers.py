@@ -3,7 +3,7 @@ import os
 
 def read_sql_file(name: str) -> str:
     cwd = os.getcwd()
-    p = os.path.join(cwd, f"../sql/{name}.sql")
+    p = os.path.join(cwd, f"sql/{name}.sql")
 
     return open(p).read()
 

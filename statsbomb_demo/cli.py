@@ -8,8 +8,8 @@ from lineups import LineupFetcher
 from dumper import Dumper
 from db import init_db
 
-RAW_DATA_DIR = os.path.join(f"{os.getcwd()}/..","raw_data")
-NEW_DATA_DIR = os.path.join(f"{os.getcwd()}/..","new_data")
+RAW_DATA_DIR = os.path.join(f"{os.getcwd()}", "raw_data")
+NEW_DATA_DIR = os.path.join(f"{os.getcwd()}", "new_data")
 
 OPEN_DATA_PATHS = {
     "competitions": "https://raw.githubusercontent.com/statsbomb/open-data/master/data/competitions.json",
