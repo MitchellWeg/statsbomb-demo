@@ -1,0 +1,4 @@
+raw_data/
+*.db
+*.db.wal
+__pycache__
