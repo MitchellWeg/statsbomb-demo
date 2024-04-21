@@ -1,6 +1,6 @@
 import requests
 import duckdb
-from helpers import exists_in_db, clean_str, read_sql_file
+from helpers import exists_in_db, clean_str 
 
 class MatchesFetcher():
     def __init__(self, url: str, db: duckdb.DuckDBPyConnection) -> None:

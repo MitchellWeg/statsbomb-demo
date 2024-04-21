@@ -119,7 +119,6 @@ class EventFetcher:
                     self._check_for_play_pattern(event['play_pattern'], conn)
                     if not event['player']['id'] == 'NULL':
                         self._check_for_player(event['player'], conn)
-            return
 
     def _check_for_player(self, player: dict, conn: duckdb.DuckDBPyConnection):
         id = player['id']

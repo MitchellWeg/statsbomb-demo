@@ -34,10 +34,6 @@ def main():
     for comp in comps:
         matches_fetcher.fetch(comp['competition_id'], comp['season_id'])
 
-    print("Running lineup fetcher...")
-    lineup_fetcher = LineupFetcher(OPEN_DATA_PATHS["lineups"], conn)
-    lineup_fetcher.fetch(RAW_DATA_DIR)
-
     print("Running event fetcher...")
     event_fetcher = EventFetcher(OPEN_DATA_PATHS['events'], conn)
 
@@ -49,6 +45,10 @@ def main():
         event_fetcher.fetch(RAW_DATA_DIR, 1)
     else:
         event_fetcher.fetch(RAW_DATA_DIR, args.threads)
+
+    print("Running lineup fetcher...")
+    lineup_fetcher = LineupFetcher(OPEN_DATA_PATHS["lineups"], conn)
+    lineup_fetcher.fetch(RAW_DATA_DIR)
 
     dumper = Dumper(NEW_DATA_DIR, conn)
 
